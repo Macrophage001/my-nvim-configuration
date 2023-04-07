@@ -58,5 +58,8 @@ return {
 	},
 	{
 		"mbbill/undotree"
+	},
+	{
+		"theprimeagen/harpoon"
 	}
 }
