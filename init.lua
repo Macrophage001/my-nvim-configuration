@@ -244,7 +244,7 @@ vim.o.termguicolors = true
 -- [[ Basic Keymaps ]]
 
 -- Keymap for opening the explorer
-vim.keymap.set('n', '<C-b>', ':NeoTreeFocusToggle <CR>', { desc = "Open Neotree", silent = true })
+vim.keymap.set('n', '<C-b>', ':Ex <CR>', { desc = "Open Neotree", silent = true })
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
@@ -307,10 +307,11 @@ vim.keymap.set('n', 'tl', ':tabnext<CR>', { desc = "Next Tab", noremap = true })
 vim.keymap.set('n', 'th', ':tabprev<CR>', { desc = "Prev Tab", noremap = true })
 vim.keymap.set('n', 'to', ':tabo<CR>', { desc = "Close tab", noremap = true })
 
+vim.keymap.set('n', '<leader>p', '_dP')
 vim.keymap.set('v', "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set('n', "J", "mzJ`z")
-vim.keymap.set('n', '<C-e>', '<S-:>!')
+vim.keymap.set('n', '<C-e>', ':!')
 vim.keymap.set('n', 'N', 'Nzzzv')
 vim.keymap.set('n', 'n', 'nzzzv')
 
@@ -353,6 +354,7 @@ vim.keymap.set('n', '<leader>Gf', ':Git fetch<CR>', { desc = '[G]it [F]etch' })
 vim.keymap.set('n', '<leader>Gr', ':Git rebase<CR>', { desc = '[G]it [R]ebase' })
 vim.keymap.set('n', '<leader>GL', ':Git log --graph --pretty=oneline<CR>', { desc = '[G]it [L]og' })
 
+vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
 
 vim.keymap.set("n", '<leader>R', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
   { desc = "Replace all occurrences under cursor" })

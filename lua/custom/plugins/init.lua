@@ -3,19 +3,19 @@
 --
 -- See the kickstart.nvim README for more information
 return {
-	{
-		'nvim-neo-tree/neo-tree.nvim',
-		config = function()
-			require('neo-tree').setup({
-				close_if_last_window = true,
-			})
-		end,
-		dependencies = {
-			{ 'nvim-lua/plenary.nvim' },
-			{ 'nvim-tree/nvim-web-devicons' },
-			{ 'MunifTanjim/nui.nvim' },
-		},
-	},
+	-- {
+	-- 	'nvim-neo-tree/neo-tree.nvim',
+	-- 	config = function()
+	-- 		require('neo-tree').setup({
+	-- 			close_if_last_window = true,
+	-- 		})
+	-- 	end,
+	-- 	dependencies = {
+	-- 		{ 'nvim-lua/plenary.nvim' },
+	-- 		{ 'nvim-tree/nvim-web-devicons' },
+	-- 		{ 'MunifTanjim/nui.nvim' },
+	-- 	},
+	-- },
 	{
 		'glepnir/dashboard-nvim',
 		event = 'VimEnter',
@@ -56,4 +56,7 @@ return {
 			require("trouble").setup({})
 		end
 	},
+	{
+		"mbbill/undotree"
+	}
 }
