@@ -61,5 +61,8 @@ return {
 	},
 	{
 		"theprimeagen/harpoon"
+	},
+	{
+		'nvim-treesitter/playground',
 	}
 }

@@ -78,7 +78,7 @@ require('lazy').setup({
     },
   },
   -- Selected Colorscheme
-  colorschemes.catpuccin,
+  colorschemes.onedark,
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
