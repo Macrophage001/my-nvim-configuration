@@ -78,7 +78,7 @@ require('lazy').setup({
     },
   },
   -- Selected Colorscheme
-  colorschemes.onedark,
+  colorschemes.kanagawa,
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -214,7 +214,7 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Half-Page Up and Center' })
 vim.keymap.set('n', 'tn', ':tabnew<CR>', { desc = "New Tab", noremap = true })
 vim.keymap.set('n', 'tl', ':tabnext<CR>', { desc = "Next Tab", noremap = true })
 vim.keymap.set('n', 'th', ':tabprev<CR>', { desc = "Prev Tab", noremap = true })
-vim.keymap.set('n', 'to', ':tabo<CR>', { desc = "Close tab", noremap = true })
+vim.keymap.set('n', 'to', ':tabo<CR>', { desc = "Close other tabs", noremap = true })
 
 -- Register keymaps
 -- Allows replacing highlighted text with yanked text without replacing yanked text from register.
