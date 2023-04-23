@@ -1,54 +1,17 @@
--- You can add your own plugins here or in other files in this directory!
---  I promise not to create any merge conflicts in this directory :)
---
--- See the kickstart.nvim README for more information
 return {
-	-- {
-	-- 	'nvim-neo-tree/neo-tree.nvim',
-	-- 	config = function()
-	-- 		require('neo-tree').setup({
-	-- 			close_if_last_window = true,
-	-- 		})
-	-- 	end,
-	-- 	dependencies = {
-	-- 		{ 'nvim-lua/plenary.nvim' },
-	-- 		{ 'nvim-tree/nvim-web-devicons' },
-	-- 		{ 'MunifTanjim/nui.nvim' },
-	-- 	},
-	-- },
-	-- {
-	-- 	'glepnir/dashboard-nvim',
-	-- 	event = 'VimEnter',
-	-- 	config = function()
-	-- 		require('dashboard').setup({
-	-- 			theme = 'hyper',
-	-- 			config = {
-	-- 				week_header = {
-	-- 					enable = true,
-	-- 				},
-	-- 				shortcut = {
-	-- 					{ desc = ' Update', group = '@property', action = 'Lazy update', key = 'u' },
-	-- 					{
-	-- 						icon = ' ',
-	-- 						icon_hl = '@variable',
-	-- 						desc = 'Files',
-	-- 						group = 'Label',
-	-- 						action = 'Telescope find_files',
-	-- 						key = 'f',
-	-- 					},
-	-- 					{
-	-- 						icon_hl = '@variable',
-	-- 						desc = 'Recent Files',
-	-- 						group = 'Label',
-	-- 						action = 'Telescope oldfiles',
-	-- 						key = 'r',
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- 	dependencies = { { 'nvim-tree/nvim-web-devicons' } }
-	-- },
+	{
+		'nvim-neo-tree/neo-tree.nvim',
+		config = function()
+			require('neo-tree').setup({
+				close_if_last_window = true,
+			})
+		end,
+		dependencies = {
+			{ 'nvim-lua/plenary.nvim' },
+			{ 'nvim-tree/nvim-web-devicons' },
+			{ 'MunifTanjim/nui.nvim' },
+		},
+	},
 	{
 		"goolord/alpha-nvim",
 		config = function()
@@ -66,9 +29,88 @@ return {
 		"mbbill/undotree"
 	},
 	{
-		"theprimeagen/harpoon"
+		'akinsho/bufferline.nvim',
+		version = "v3.*",
+		dependencies = 'nvim-tree/nvim-web-devicons',
+		config = function()
+			require('bufferline').setup {
+				options = {
+					buffer_close_icon = '',
+					modified_icon = '●',
+					close_icon = '',
+					left_trunc_marker = '',
+					right_trunc_marker = '',
+					color_icons = true,
+					seperator_style = "thick",
+				}
+			}
+		end,
 	},
 	{
-		'nvim-treesitter/playground',
+		'akinsho/toggleterm.nvim',
+		version = "*",
+		config = function()
+			require("toggleterm").setup({
+				-- direction = "float"
+			})
+		end
+	},
+	{
+		'folke/todo-comments.nvim',
+		event = 'BufRead',
+		config = function()
+			require("todo-comments").setup()
+		end
+	},
+	{
+		'tpope/vim-surround'
+	},
+	{
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		config = function()
+			require("copilot").setup({
+				panel = {
+					enabled = true,
+					auto_refresh = false,
+					keymap = {
+						jump_next = "<c-j>",
+						jump_prev = "<c-k>",
+						accept = "<c-a>",
+						refresh = "r",
+						open = "<M-CR>",
+					},
+					layout = {
+						position = "bottom", -- | top | left | right
+						ratio = 0.4,
+					},
+				},
+				suggestion = {
+					enabled = true,
+					auto_trigger = false,
+					debounce = 75,
+					keymap = {
+						accept = "<c-a>",
+						accept_word = false,
+						accept_line = false,
+						next = "<c-j>",
+						prev = "<c-k>",
+						dismiss = "<C-e>",
+					},
+				},
+			})
+		end
+	},
+	{
+		"zbirenbaum/copilot-cmp",
+		after = { "copilot.lua" },
+		config = function()
+			require("copilot_cmp").setup({
+				suggestion = {
+					auto_trigger = true
+				}
+			})
+		end,
 	}
 }
