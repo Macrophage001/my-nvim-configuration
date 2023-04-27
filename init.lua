@@ -17,7 +17,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  -- NOTE: First, some plugins that don't require any configuration
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
@@ -46,19 +45,19 @@ require('lazy').setup({
       'folke/neodev.nvim',
     },
   },
+  'L3MON4D3/LuaSnip',
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = {
-      'hrsh7th/cmp-nvim-lsp',
-      'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-nvim-lsp',
       'rafamadriz/friendly-snippets',
     },
   },
-  { 'hrsh7th/cmp-buffer', },
-  { 'hrsh7th/cmp-path', },
-  { 'hrsh7th/cmp-cmdline', },
 
   -- Useful plugin to show you pending keybinds.
   {
@@ -128,8 +127,6 @@ require('lazy').setup({
     opts = {
       char = '│',
       show_trailing_blankline_indent = false,
-      show_current_context = true,
-      show_current_context_start = true,
       show_end_of_line = true,
       space_char_blankline = '⋅',
     },
@@ -348,7 +345,13 @@ require('neodev').setup()
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+local status_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+if not status_ok then
+  return
+end
+
+capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
 -- Setup mason so it can manage external tooling
 require('mason').setup()

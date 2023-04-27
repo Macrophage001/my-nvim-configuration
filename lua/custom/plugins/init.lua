@@ -73,7 +73,7 @@ return {
 			require("copilot").setup({
 				panel = {
 					enabled = true,
-					auto_refresh = false,
+					auto_refresh = true,
 					keymap = {
 						jump_next = "<c-j>",
 						jump_prev = "<c-k>",
@@ -88,14 +88,14 @@ return {
 				},
 				suggestion = {
 					enabled = true,
-					auto_trigger = false,
+					auto_trigger = true,
 					debounce = 75,
 					keymap = {
-						accept = "<c-a>",
+						accept = "<C-a>",
 						accept_word = false,
 						accept_line = false,
-						next = "<c-j>",
-						prev = "<c-k>",
+						next = "<C-j>",
+						prev = "<C-k>",
 						dismiss = "<C-e>",
 					},
 				},
