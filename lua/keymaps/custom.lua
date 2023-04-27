@@ -1,7 +1,4 @@
-vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Half-Page Down and Center' })
-vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Half-Page Up and Center' })
-
--- Buffer keymaps
+-- HELPER FUNCTIONS --
 local switch_to_buffer = function(dir)
     return function()
         if dir == 'prev' then
@@ -11,12 +8,35 @@ local switch_to_buffer = function(dir)
         end
     end
 end
+
+local move_line = function(numlns)
+    return function()
+        vim.cmd.m(numlns)
+    end
+end
+
+local switch_to_split = function(dir)
+    return function()
+        local buftype = vim.bo.buftype
+        if (buftype == nil) then
+            vim.cmd.write()
+            print("Saving buffer: " .. vim.bo.path)
+        end
+        print(vim.bo.buftype);
+        vim.cmd.wincmd(dir)
+    end
+end
+
+vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Half-Page Down and Center' })
+vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Half-Page Up and Center' })
+
+-- Buffer keymaps
 vim.keymap.set('n', '<S-l>', switch_to_buffer('next'))
 vim.keymap.set('n', '<S-h>', switch_to_buffer('prev'))
 
 -- Register keymaps
 -- Allows replacing highlighted text with yanked text without replacing yanked text from register.
-vim.keymap.set('x', '<leader>p', '"_dP')
+vim.keymap.set('x', 'p', '"_dP')
 vim.keymap.set('n', '<leader>y', '"+y')
 vim.keymap.set('v', '<leader>y', '"+y')
 vim.keymap.set('n', '<leader>Y', '"+Y')
@@ -26,11 +46,6 @@ vim.keymap.set('v', '<leader>d', '"_d')
 vim.keymap.set('n', '<leader>dw', 'viwd', { desc = "Deletes word under cursor" });
 vim.keymap.set('n', '<leader>cw', 'viwc', { desc = "Del + Insert Mode word under cursor" });
 
-local move_line = function(numlns)
-    return function()
-        vim.cmd.m(numlns)
-    end
-end
 
 -- Line Navigation keymaps
 vim.keymap.set('v', "<A-Up>", ":m '<-2<CR>gv=gv")
@@ -47,18 +62,6 @@ vim.keymap.set('n', 'n', 'nzzzv')
 
 
 -- Split Keymaps
-local switch_to_split = function(dir)
-    return function()
-        local buftype = vim.bo.buftype
-        if (buftype == nil) then
-            vim.cmd.write()
-            print("Saving buffer: " .. vim.bo.path)
-        end
-        print(vim.bo.buftype);
-        vim.cmd.wincmd(dir)
-    end
-end
-
 vim.keymap.set('n', '<C-Left>', switch_to_split('h'))
 vim.keymap.set('n', '<C-Down>', switch_to_split('j'))
 vim.keymap.set('n', '<C-Up>', switch_to_split('k'))
@@ -71,11 +74,11 @@ vim.keymap.set('n', '<leader>gs', ':Git status <CR>', { desc = '[G]it [S]tatus' 
 vim.keymap.set('n', '<leader>gd', ':Git diff<CR>', { desc = '[G]it [D]iff' })
 vim.keymap.set('n', '<leader>gc', [[:Git commit -m ''<Left>]], { desc = '[G]it [C]ommit' })
 vim.keymap.set('n', '<leader>gp', ':Git push<CR>', { desc = '[G]it [P]ush' })
-vim.keymap.set('n', '<leader>gl', ':Git pull<CR>', { desc = '[G]it Pu[l]l' })
+vim.keymap.set('n', '<leader>gP', ':Git pull<CR>', { desc = '[G]it Pu[l]l' })
 vim.keymap.set('n', '<leader>gb', ':Git blame<CR>', { desc = '[G]it [B]lame' })
 vim.keymap.set('n', '<leader>gf', ':Git fetch<CR>', { desc = '[G]it [F]etch' })
 vim.keymap.set('n', '<leader>gr', ':Git rebase<CR>', { desc = '[G]it [R]ebase' })
-vim.keymap.set('n', '<leader>gL', ':Git log --graph --pretty=oneline<CR>', { desc = '[G]it [L]og' })
+vim.keymap.set('n', '<leader>gl', ':Git log --graph --pretty=oneline<CR>', { desc = '[G]it [L]og' })
 
 vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
 
