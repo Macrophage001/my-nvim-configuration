@@ -4,7 +4,6 @@ return {
 		require("catppuccin").setup({
 			flavour = "mocha", -- latte, frappe, macchiato, mocha
 			background = {
-				-- :h background
 				light = "latte",
 				dark = "frappe",
 			},
@@ -20,15 +19,15 @@ return {
 			no_bold = false, -- Force no bold
 			styles = {
 				comments = { "italic" },
-				conditionals = { "italic" },
+				conditionals = { "bold", "italic" },
 				loops = {},
-				functions = { "bold" },
-				keywords = {},
+				functions = { "bold", "italic" },
+				keywords = { "bold", "italic" },
 				strings = { "italic" },
 				variables = {},
 				numbers = {},
 				booleans = {},
-				properties = {},
+				properties = { "bold" },
 				types = { "bold" },
 				operators = {},
 			},
@@ -46,6 +45,6 @@ return {
 		})
 
 		-- setup must be called before loading
-		vim.cmd.colorscheme "catppuccin-frappe"
+		vim.cmd.colorscheme "catppuccin-mocha"
 	end
 }

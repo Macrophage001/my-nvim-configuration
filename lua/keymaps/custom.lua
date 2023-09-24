@@ -27,6 +27,17 @@ local switch_to_split = function(dir)
     end
 end
 
+-- Keymap for opening the explorer
+vim.keymap.set('n', '<Tab>', vim.cmd.NeoTreeFocusToggle, { desc = "Open Neotree" })
+
+-- Keymaps for better default experience
+-- See `:help vim.keymap.set()`
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+
+-- Remap for dealing with word wrap
+vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Half-Page Down and Center' })
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Half-Page Up and Center' })
 
@@ -34,18 +45,26 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Half-Page Up and Center' })
 vim.keymap.set('n', '<S-l>', switch_to_buffer('next'))
 vim.keymap.set('n', '<S-h>', switch_to_buffer('prev'))
 
--- Register keymaps
+-- Register keymap
 -- Allows replacing highlighted text with yanked text without replacing yanked text from register.
 vim.keymap.set('x', 'p', '"_dP')
 vim.keymap.set('n', '<leader>y', '"+y')
 vim.keymap.set('v', '<leader>y', '"+y')
 vim.keymap.set('n', '<leader>Y', '"+Y')
 
+vim.keymap.set('n', 'yd', 'yyp', { desc = "Duplicate Line" });
 vim.keymap.set('n', '<leader>d', '"_d')
 vim.keymap.set('v', '<leader>d', '"_d')
-vim.keymap.set('n', '<leader>dw', 'viwd', { desc = "Deletes word under cursor" });
-vim.keymap.set('n', '<leader>cw', 'viwc', { desc = "Del + Insert Mode word under cursor" });
+vim.keymap.set('n', '<leader>dw', '"_diw', { desc = "Deletes word under cursor" });
+vim.keymap.set('n', '<leader>cw', 'ciw', { desc = "Cut word under cursor" });
+vim.keymap.set('n', '<leader>rw', '"_diwp', { desc = "Replace word under cursor with yanked text" });
+vim.keymap.set('n', '<leader>rW', '"_diwP', { desc = "Replace word under cursor with yanked text" });
 
+-- Whole Buffer Keymaps
+vim.keymap.set('n', '<leader>cf', 'ggcG<C-o>zz', { desc = "Cut whole buffer" });
+vim.keymap.set('n', '<leader>df', 'ggdG<C-o>zz', { desc = "Delete whole buffer" });
+vim.keymap.set('n', '<leader>rf', 'ggpG<C-o>zz', { desc = "Replace whole buffer with yanked text" });
+vim.keymap.set('n', '<leader>yf', 'ggyG<C-o>zz', { desc = "Yank whole buffer" });
 
 -- Line Navigation keymaps
 vim.keymap.set('v', "<A-Up>", ":m '<-2<CR>gv=gv")
@@ -59,7 +78,6 @@ vim.keymap.set('n', "J", "mzJ`z")
 vim.keymap.set('n', '<C-e>', ':!')
 vim.keymap.set('n', 'N', 'Nzzzv')
 vim.keymap.set('n', 'n', 'nzzzv')
-
 
 -- Split Keymaps
 vim.keymap.set('n', '<C-Left>', switch_to_split('h'))
@@ -79,18 +97,8 @@ vim.keymap.set('n', '<leader>gb', ':Git blame<CR>', { desc = '[G]it [B]lame' })
 vim.keymap.set('n', '<leader>gf', ':Git fetch<CR>', { desc = '[G]it [F]etch' })
 vim.keymap.set('n', '<leader>gr', ':Git rebase<CR>', { desc = '[G]it [R]ebase' })
 vim.keymap.set('n', '<leader>gl', ':Git log --graph --pretty=oneline<CR>', { desc = '[G]it [L]og' })
-
 vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
-
-vim.keymap.set('n', '<leader>Rr', [[:s/\<<C-r><C-w>\>/<C-r><C-w>/<Left>]], { desc = "Replace under cursor" })
-vim.keymap.set('n', '<leader>Rg', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
-    { desc = "Replace all occurrences under cursor" })
-vim.keymap.set('n', '<C-v>', vim.cmd.v)
--- Fightin' one-eyed Kirby (Collects highlighted text and allows you to store it for use in the substitution using \1)
-vim.keymap.set('v', '<leaker>Rk', [[:s/\(\w.*\)/]], { desc = "Store and Replace (Fighting one-eyed Kirby)" })
-
 vim.keymap.set('n', '<C-x>', '<cmd>ToggleTerm<CR>', { desc = "Toggle Terminal" });
-
 vim.keymap.set('t', '<C-x>', '<C-\\><C-n><cmd>ToggleTerm<CR>')
 vim.keymap.set('t', 'jk', [[<C-\><C-n>]])
 
@@ -112,3 +120,20 @@ vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
     { desc = "Toggle Trouble Quickfix", silent = true, noremap = true })
 vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
     { desc = "Toggle Trouble LSP References", silent = true, noremap = true })
+
+-- Goto-Preview Keymaps
+vim.keymap.set("n", "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<cr>",
+    { desc = "Goto Preview Definition", silent = true, noremap = true })
+vim.keymap.set("n", "gi", "<cmd>lua require('goto-preview').goto_preview_implementation()<cr>",
+    { desc = "Goto Preview Implementation", silent = true, noremap = true })
+vim.keymap.set("n", "gP", "<cmd>lua require('goto-preview').close_all_win()<cr>",
+    { desc = "Close All Goto Preview Windows", silent = true, noremap = true })
+
+
+-- Mark Keymaps
+vim.keymap.set("n", "<leader>m1", [[:lua vim.fn.setreg(1, ':e ' .. vim.fn.expand('%:p')) <CR>]],
+    { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>m2", [[:lua vim.fn.setreg(2, ':e ' .. vim.fn.expand('%:p')) <CR>]],
+    { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>m3", [[:lua vim.fn.setreg(3, ':e ' .. vim.fn.expand('%:p')) <CR>]],
+    { silent = true, noremap = true })

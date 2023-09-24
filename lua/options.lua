@@ -11,20 +11,13 @@ vim.opt.mouse = 'a'
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.breakindent = true
 vim.opt.undofile = true
-vim.opt.updatetime = 50
+vim.opt.updatetime = 200
 vim.opt.completeopt = 'menuone,noselect'
 
 vim.opt.termguicolors = true
 
--- vim.cmd [[highlight IndentBlanklineIndent1 guifg=#C8D3F5 gui=nocombine]]
--- vim.cmd [[highlight IndentBlanklineIndent2 guifg=#7A88CF gui=nocombine]]
--- vim.cmd [[highlight IndentBlanklineIndent3 guifg=#7a88cf gui=nocombine]]
--- vim.cmd [[highlight IndentBlanklineIndent4 guifg=#7A88CF gui=nocombine]]
--- vim.cmd [[highlight IndentBlanklineIndent5 guifg=#C8D3F5 gui=nocombine]]
--- vim.cmd [[highlight IndentBlanklineIndent6 guifg=#7A88CF gui=nocombine]]
-
 vim.opt.list = true
-vim.opt.listchars:append "eol:↴"
+-- vim.opt.listchars:append "eol:↴"
 vim.opt.listchars:append "space:⋅"
 
 vim.wo.number = true

@@ -20,8 +20,8 @@ return {
 			-- You can configure multiple style with comma separated, For e.g., keywords = 'italic,bold'
 			code_style = {
 				comments = 'italic,bold',
-				keywords = 'none',
-				functions = 'bold',
+				keywords = 'italic,bold',
+				functions = 'italic,bold',
 				strings = 'italic',
 				variables = 'none'
 			},
@@ -32,9 +32,16 @@ return {
 			},
 
 			-- Custom Highlights --
-			colors = {}, -- Override default colors
-			highlights = {}, -- Override highlight groups
-
+			colors = {
+				-- red = "#f95b6e",
+				-- cyan = "#25ddea",
+				-- blue = "#47b7ff",
+				-- purple = "#fe7eff",
+				-- yellow = "#fede5d",
+				-- -- orange = "#ffe178",
+				-- bright_orange = "#ff8800", -- define a new colorA
+			},
+			highlights = {},
 			-- Plugins Config --
 			diagnostics = {
 				darker = true, -- darker colors for diagnostic

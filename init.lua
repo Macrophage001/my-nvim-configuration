@@ -1,5 +1,6 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+vim.g.editorconfig = 1
 
 require 'options'
 
@@ -32,31 +33,36 @@ require('lazy').setup({
   {
     -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
+    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       -- Automatically install LSPs to stdpath for neovim
+      'hrsh7th/cmp-nvim-lsp',
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
-
-      -- Useful status updates for LSP
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',                   tag = 'legacy' },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
+      { "antosha417/nvim-lsp-file-operations", config = true },
     },
   },
-  'L3MON4D3/LuaSnip',
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = {
+      'rafamadriz/friendly-snippets',
+      'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-nvim-lsp',
-      'rafamadriz/friendly-snippets',
     },
+
+    config = function()
+      -- loads vscode style snippets from installed plugins (e.e. friendly-snippets)
+      require('luasnip.loaders.from_vscode').lazy_load()
+    end
   },
 
   -- Useful plugin to show you pending keybinds.
@@ -131,23 +137,44 @@ require('lazy').setup({
       space_char_blankline = '⋅',
     },
   },
-
-  -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim',         opts = {} },
+  {
+    'numToStr/Comment.nvim',
+    opts = {}
+  },
 
   -- Fuzzy Finder (files, lsp, etc)
-  { 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
-
-  -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-  -- Only load if `make` is available. Make sure you have the system
-  -- requirements installed.
   {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    -- NOTE: If you are having trouble with this installation,
-    --       refer to the README for telescope-fzf-native for more instructions.
-    build = 'make',
-    cond = function()
-      return vim.fn.executable 'make' == 1
+    'nvim-telescope/telescope.nvim',
+    version = '*',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        -- NOTE: If you are having trouble with this installation,
+        --       refer to the README for telescope-fzf-native for more instructions.
+        build = 'make',
+        cond = function()
+          return vim.fn.executable 'make' == 1
+        end,
+      },
+    },
+    config = function()
+      local telescope = require 'telescope'
+      local actions = require 'telescope.actions'
+
+      telescope.setup({
+        defaults = {
+          mappings = {
+            i = {
+              ['<C-k>'] = actions.move_selection_previous,
+              ['<C-j>'] = actions.move_selection_next,
+            },
+          },
+        },
+      })
+      --
+      -- Enable telescope fzf native, if installed
+      pcall(require('telescope').load_extension, 'fzf')
     end,
   },
   {
@@ -160,23 +187,12 @@ require('lazy').setup({
       pcall(require('nvim-treesitter.install').update { with_sync = true })
     end,
   },
+  {
+    'nvim-treesitter/playground'
+  },
   require 'kickstart.plugins.autoformat',
-  require 'kickstart.plugins.debug',
   { import = 'custom.plugins' },
 }, {})
-
--- [[ Basic Keymaps ]]
-
--- Keymap for opening the explorer
-vim.keymap.set('n', '<Tab>', vim.cmd.NeoTreeFocusToggle, { desc = "Open Neotree" })
-
--- Keymaps for better default experience
--- See `:help vim.keymap.set()`
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-
--- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -189,21 +205,14 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
--- [[ Configure Telescope ]]
--- See `:help telescope` and `:help telescope.setup()`
-require('telescope').setup {
-  defaults = {
-    mappings = {
-      i = {
-        ['<C-u>'] = false,
-        ['<C-d>'] = false,
-      },
-    },
-  },
-}
-
--- Enable telescope fzf native, if installed
-pcall(require('telescope').load_extension, 'fzf')
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client.server_capabilities.signatureHelpProvider then
+      require('lsp-overloads').setup(client, {})
+    end
+  end
+})
 
 require 'keymaps.telescope'
 require 'keymaps.custom'
@@ -321,6 +330,7 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
+
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 --
@@ -365,11 +375,11 @@ mason_lspconfig.setup {
 
 mason_lspconfig.setup_handlers {
   function(server_name)
-    require('lspconfig')[server_name].setup {
+    require('lspconfig')[server_name].setup({
       capabilities = capabilities,
       on_attach = on_attach,
       settings = servers[server_name],
-    }
+    })
   end,
 }
 
