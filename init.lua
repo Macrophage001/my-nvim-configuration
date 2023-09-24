@@ -214,8 +214,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end
 })
 
-require 'keymaps.telescope'
-require 'keymaps.custom'
+function load_mappings(mappings)
+  for mode, mapping in pairs(mappings) do
+    for key, value in pairs(mapping) do
+      local cmd = value[1]
+      local opts = value[2] or {}
+      vim.keymap.set(mode, key, cmd, opts)
+    end
+  end
+end
+
+load_mappings(require('keymaps.telescope'))
+load_mappings(require('keymaps.custom'))
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
