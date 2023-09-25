@@ -20,7 +20,6 @@ return {
 					filter = { event = "msg_showmode" },
 				}
 			},
-
 			views = {
 				cmdline_popup = {
 					position = {

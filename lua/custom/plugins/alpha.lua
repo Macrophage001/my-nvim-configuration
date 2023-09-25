@@ -72,6 +72,7 @@ local buttons = {
 		button("f", icons.ui.Search .. " Find file", "<cmd>Telescope find_files<CR>"),
 		button("r", icons.misc.Clock .. " Recently opened files", "<cmd>Telescope oldfiles<CR>"),
 		button("g s", icons.git.Octoface .. " Git status", "<cmd>Git status<CR>"),
+		button("c", icons.ui.Config .. " Config", "<cmd>e ~/AppData/Local/nvim/<CR>"),
 		button("q", icons.ui.Close .. " Quit", "<cmd>qa<CR>"),
 	},
 	opts = {
@@ -84,10 +85,11 @@ local footer = {
 	val =
 		[[ ╰  Neovim v]] .. get_neovim_version() ..
 		[[  ]] .. get_lua_version() ..
-		[[  Plugins: ]] .. get_plugin_count() .. [[  ]] .. get_date() .. [[]],
+		[[  Plugins: ]] .. get_plugin_count() .. [[  ]] .. get_date() .. [[\n]],
 	opts = {
 		position = "center",
 		hl = "Number",
+		spacing = 1,
 	},
 }
 

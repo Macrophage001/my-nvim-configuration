@@ -36,6 +36,8 @@ end
 -- @field x table Visual-block mode mappings
 local mappings = {
     n = {
+        ['<leader><space>r'] = { '<cmd>bufdo LspRestart<CR>', { silent = true } },
+
         ['<Space>'] = { '<Nop>', { silent = true } },
         ['<Tab>'] = { vim.cmd.NeoTreeFocusToggle, { desc = "Open Neotree" } },
         ['k'] = { "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true } },
@@ -130,6 +132,7 @@ local mappings = {
             silent = true,
             noremap = true
         } },
+        ['<leader>z'] = { "<cmd>ZenMode<CR>", { silent = true } }
     },
     v = {
         ['<leader>d'] = { '"_d' },

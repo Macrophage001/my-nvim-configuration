@@ -17,6 +17,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local icons = require('icons')
+
 require('lazy').setup({
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -66,21 +68,18 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  {
-    'folke/which-key.nvim',
-    opts = {}
-  },
+  { 'folke/which-key.nvim',   opts = {} },
   {
     -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
       -- See `:help gitsigns.txt`
       signs = {
-        add = { text = '+' },
-        change = { text = '' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
+        add = { text = icons.git.FileAdded },
+        change = { text = icons.git.FileChanged },
+        delete = { text = icons.git.FileDeleted },
+        topdelete = { text = icons.git.FileDeleted },
+        changedelete = { text = icons.git.FileDeleted },
       },
     },
   },
@@ -110,7 +109,7 @@ require('lazy').setup({
     end
   },
 
-  require 'colorschemes.tokyonight',
+  require 'colorschemes.catpuccin',
 
   {
     -- Set lualine as statusline
@@ -197,32 +196,32 @@ require('lazy').setup({
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = '*',
-})
+local event_groups = {
+  TextYankPost = {
+    {
+      callback = function()
+        vim.highlight.on_yank()
+      end,
+      group = highlight_group,
+      pattern = '*',
+    }
+  },
+  LspAttach = {
+    {
+      callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client.server_capabilities.signatureHelpProvider then
+          require('lsp-overloads').setup(client, {})
+        end
+      end
+    }
+  },
+}
 
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client.server_capabilities.signatureHelpProvider then
-      require('lsp-overloads').setup(client, {})
-    end
-  end
-})
+local load_mappings = require('utils').load_mappings
+local load_autocmds = require('utils').load_autocmds
 
-function load_mappings(mappings)
-  for mode, mapping in pairs(mappings) do
-    for key, value in pairs(mapping) do
-      local cmd = value[1]
-      local opts = value[2] or {}
-      vim.keymap.set(mode, key, cmd, opts)
-    end
-  end
-end
+load_autocmds(event_groups)
 
 load_mappings(require('keymaps.telescope'))
 load_mappings(require('keymaps.custom'))
@@ -308,22 +307,26 @@ local on_attach = function(_, bufnr)
     if desc then
       desc = 'LSP: ' .. desc
     end
-
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-  nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+  -- nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+  nmap('<leader>rn', '<cmd>Lspsaga rename<CR>', '[R]e[n]ame')
+  -- nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+  nmap('<leader>ca', "<cmd>Lspsaga code_action<CR>", '[C]ode [A]ction')
 
-  nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+  -- nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+  nmap('gd', '<cmd>Lspsaga goto_definition<CR>', '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-  nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
+  -- nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
+  nmap('<leader>D', '<cmd>Lspsaga goto_type_definition<CR>', 'Type [D]efinition')
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+  -- nmap('K', "<cmd>lua require('lspsaga.hover').render_hover_doc()<CR>", 'Hover Documentation')
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
