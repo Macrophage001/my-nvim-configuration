@@ -10,6 +10,8 @@ return {
   -- NOTE: Yes, you can install new plugins here!
   'mfussenegger/nvim-dap',
   -- NOTE: And you can specify dependencies as well
+  lazy = true,
+  event = 'BufReadPre',
   dependencies = {
     -- Creates a beautiful debugger UI
     'rcarriga/nvim-dap-ui',
@@ -39,6 +41,23 @@ return {
       },
     }
 
+    dap.adapters.coreclr = {
+      type = 'executable',
+      command = 'netcoredbg',
+      args = { '--interpreter=vscode' },
+    }
+
+    dap.configurations.cs = {
+      {
+        type = "coreclr",
+        name = "launch - netcoredbg",
+        request = "launch",
+        program = function()
+          return vim.fn.input('Path to dll', vim.fn.getcwd() .. 'bin/Debug/net6.0', 'file')
+        end,
+      },
+    }
+
     -- You can provide additional configuration to the handlers,
     -- see mason-nvim-dap README for more information
 
@@ -54,7 +73,7 @@ return {
 
     -- Dap UI setup
     -- For more information, see |:help nvim-dap-ui|
-    dapui.setup {
+    dapui.setup({
       -- Set icons to characters that are more likely to work in every terminal.
       --    Feel free to remove or use ones that you like more! :)
       --    Don't feel like these are good choices.
@@ -71,7 +90,7 @@ return {
           terminate = '⏹',
         },
       },
-    }
+    })
 
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close

@@ -7,7 +7,7 @@ return {
 				light = "latte",
 				dark = "frappe",
 			},
-			transparent_background = false,
+			transparent_background = true,
 			show_end_of_buffer = false, -- show the '~' characters after the end of buffers
 			term_colors = false,
 			dim_inactive = {
@@ -18,17 +18,17 @@ return {
 			no_italic = false, -- Force no italic
 			no_bold = false, -- Force no bold
 			styles = {
-				comments = { "italic" },
-				conditionals = { "bold", "italic" },
+				-- comments = { "italic" },
+				conditionals = {},
 				loops = {},
-				functions = { "bold", "italic" },
-				keywords = { "bold", "italic" },
-				strings = { "italic" },
+				functions = {},
+				keywords = {},
+				-- strings = { "italic" },
 				variables = {},
 				numbers = {},
 				booleans = {},
-				properties = { "bold" },
-				types = { "bold" },
+				properties = {},
+				types = {},
 				operators = {},
 			},
 			color_overrides = {},
@@ -38,13 +38,9 @@ return {
 				gitsigns = true,
 				nvimtree = true,
 				telescope = true,
-				notify = false,
-				mini = false,
-				-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+				notify = true,
 			},
 		})
-
-		-- setup must be called before loading
-		vim.cmd.colorscheme "catppuccin-macchiato"
+		vim.cmd.colorscheme "catppuccin-mocha"
 	end
 }

@@ -1,4 +1,4 @@
-function buf_kill(kill_command, bufnr, force)
+local function buf_kill(kill_command, bufnr, force)
 	kill_command = kill_command or "bd"
 
 	local bo = vim.bo
@@ -71,13 +71,30 @@ function buf_kill(kill_command, bufnr, force)
 	end
 end
 
+local icons = require('icons')
+
+local diagnostics_indicator = function(num, _, diagnostics, _)
+	local result = {}
+	local symbols = {
+		error = icons.diagnostics.Error,
+		warning = icons.diagnostics.Warning,
+		info = icons.diagnostics.Information,
+	}
+	for name, count in pairs(diagnostics) do
+		if symbols[name] and count > 0 then
+			table.insert(result, symbols[name] .. " " .. count)
+		end
+	end
+	result = table.concat(result, " ")
+	return #result > 0 and result or ""
+end
+
 return {
 	'akinsho/bufferline.nvim',
 	version = "v3.*",
 	dependencies = 'nvim-tree/nvim-web-devicons',
 	config = function()
 		require('bufferline').setup({
-			-- highlights = require('catppuccin.groups.integrations.bufferline').get(),
 			highlights = {
 				background = {
 					italic = true,
@@ -91,19 +108,17 @@ return {
 					buf_kill("bd", bufnr, false)
 				end,
 				indicator = {
-					icon = require('icons').ui.BoldLineLeft,
+					icon = icons.ui.BoldLineLeft,
 					style = "icon",
 				},
-				buffer_close_icon = require('icons').ui.Close,
-				modified_icon = require('icons').ui.Modified,
-				close_icon = require('icons').ui.BoldClose,
-				left_trunc_marker = require('icons').ui.ArrowCircleLeft,
-				right_trunc_marker = require('icons').ui.ArrowCircleRight,
+				buffer_close_icon = icons.ui.Close,
+				modified_icon = icons.ui.Modified,
+				close_icon = icons.ui.BoldClose,
+				left_trunc_marker = icons.ui.ArrowCircleLeft,
+				right_trunc_marker = icons.ui.ArrowCircleRight,
 				name_formatter = function(buf) -- buf contains a "name", "path" and "bufnr"
-					-- remove extension from markdown files for example
-					if buf.name:match "%.md" then
-						return vim.fn.fnamemodify(buf.name, ":t:r")
-					end
+					-- Remove extension from file name.
+					return vim.fn.fnamemodify(buf.name, ":t:r")
 				end,
 				max_name_length = 18,
 				max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
@@ -111,12 +126,12 @@ return {
 				tab_size = 18,
 				diagnostics = "nvim_lsp",
 				diagnostics_update_in_insert = false,
+				diagnostics_indicator = diagnostics_indicator,
 				offsets = {
 					{
 						filetype = "neo-tree",
 						text = "File Explorer",
 						highlight = "Directory",
-						separator = false, -- use a "true" to enable the default, or set your own character
 						padding = 1,
 					},
 					{
@@ -126,21 +141,10 @@ return {
 						padding = 1,
 					},
 					{
-						filetype = "NvimTree",
-						text = "Explorer",
-						highlight = "PanelHeading",
-						padding = 1,
-					},
-					{
 						filetype = "DiffviewFiles",
 						text = "Diff View",
 						highlight = "PanelHeading",
 						padding = 1,
-					},
-					{
-						filetype = "flutterToolsOutline",
-						text = "Flutter Outline",
-						highlight = "PanelHeading",
 					},
 					{
 						filetype = "lazy",
@@ -154,11 +158,9 @@ return {
 				show_close_icon = false,
 				show_tab_indicators = true,
 				persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
-				-- can also be a table containing 2 custom separators
-				-- [focused and unfocused]. eg: { '|', '|' }
-				separator_style = "thin",
 				enforce_regular_tabs = false,
-				always_show_bufferline = false,
+				always_show_bufferline = true,
+				separator_style = "thin",
 				hover = {
 					enabled = false, -- requires nvim 0.8+
 					delay = 200,

@@ -36,10 +36,12 @@ end
 -- @field x table Visual-block mode mappings
 local mappings = {
     n = {
-        ['<leader><space>r'] = { '<cmd>bufdo LspRestart<CR>', { silent = true } },
+        ['<Esc>'] = { ":noh <CR>", { desc = "Clear Highlights", silent = true } },
+        ['<C-s>'] = { ":w <CR>", { desc = "Save File" } },
 
+        ['<leader><space>r'] = { '<cmd>bufdo LspRestart<CR>', { silent = true } },
         ['<Space>'] = { '<Nop>', { silent = true } },
-        ['<Tab>'] = { vim.cmd.NeoTreeFocusToggle, { desc = "Open Neotree" } },
+        ['<Tab>'] = { vim.cmd.NeoTreeFocusToggle, { desc = "Toggle Neotree" } },
         ['k'] = { "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true } },
         ['j'] = { "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true } },
         ['<C-d>'] = { '<C-d>zz', { desc = 'Half-Page Down and Center' } },
@@ -132,7 +134,12 @@ local mappings = {
             silent = true,
             noremap = true
         } },
-        ['<leader>z'] = { "<cmd>ZenMode<CR>", { silent = true } }
+        ['<leader>z'] = { "<cmd>ZenMode<CR>", { silent = true } },
+        ['<leader>cu'] = { "<cmd>%s/\\u\\(\\x\\{4\\}\\)/\\=nr2char('0x'.submatch(1),1)/g<CR>", {
+            desc = "Convert Unicode", silent = true } },
+        ["<leader>ss"] = { [[<cmd>lua require("persistence").load()<cr>]] },
+        ["<leader>sl"] = { [[<cmd>lua require("persistence").load({ last = true } })<cr>]] },
+        ["<leader>sd"] = { [[<cmd>lua require("persistence").stop()<cr>]] },
     },
     v = {
         ['<leader>d'] = { '"_d' },

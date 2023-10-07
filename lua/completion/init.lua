@@ -9,6 +9,32 @@ local check_backspace = function()
     return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
 end
 
+local completion_border = function(hl_name)
+    return {
+        { "┌", hl_name },
+        { "─", hl_name },
+        { "┐", hl_name },
+        { "│", hl_name },
+        { "┘", hl_name },
+        { "─", hl_name },
+        { "└", hl_name },
+        { "│", hl_name },
+    }
+end
+
+local documentation_border = function(hl_name)
+    return {
+        { "┌", hl_name },
+        { "─", hl_name },
+        { "┐", hl_name },
+        { "│", hl_name },
+        { "┘", hl_name },
+        { "─", hl_name },
+        { "└", hl_name },
+        { "│", hl_name },
+    }
+end
+
 cmp.setup {
     snippet = {
         expand = function(args)
@@ -58,6 +84,19 @@ cmp.setup {
             "s",
         }),
     },
+    window = {
+        side_padding = 0,
+        completion = {
+            scrollbar = false,
+            winhighlight = "Normal:Pmenu,CursorLine:PmenuSel,Search:PmenuSel",
+            border = completion_border('NormalFloat'),
+        },
+        documentation = {
+            scrollbar = false,
+            winhighlight = "Normal:Pmenu",
+            border = documentation_border('NormalFloat'),
+        },
+    },
     formatting = {
         fields = { "kind", "abbr", "menu" },
         format = function(entry, vim_item)
@@ -81,11 +120,6 @@ cmp.setup {
     confirm_opts = {
         behavior = cmp.ConfirmBehavior.Replace,
         select = false,
-    },
-    window = {
-        documentation = {
-            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-        },
     },
     experimental = {
         ghost_text = false,

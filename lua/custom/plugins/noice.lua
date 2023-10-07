@@ -1,9 +1,6 @@
 return {
 	"folke/noice.nvim",
 	event = "VeryLazy",
-	opts = {
-		-- add any options here
-	},
 	dependencies = {
 		-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
 		"MunifTanjim/nui.nvim",
@@ -23,7 +20,7 @@ return {
 			views = {
 				cmdline_popup = {
 					position = {
-						row = 5,
+						row = "50%",
 						col = "50%",
 					},
 					size = {

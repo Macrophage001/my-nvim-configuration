@@ -2,8 +2,6 @@ return {
 	'akinsho/toggleterm.nvim',
 	version = "*",
 	config = function()
-		require("toggleterm").setup({
-			-- direction = "float"
-		})
+		require("toggleterm").setup({})
 	end
 }
