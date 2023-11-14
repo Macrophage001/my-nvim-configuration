@@ -37,7 +37,7 @@ end
 local mappings = {
     n = {
         ['<Esc>'] = { ":noh <CR>", { desc = "Clear Highlights", silent = true } },
-        ['<C-s>'] = { ":w <CR>", { desc = "Save File" } },
+        ['<C-s>'] = { ":w <CR>", { desc = "Save File", silent = true } },
 
         ['<leader><space>r'] = { '<cmd>bufdo LspRestart<CR>', { silent = true } },
         ['<Space>'] = { '<Nop>', { silent = true } },
@@ -77,7 +77,6 @@ local mappings = {
         ['<C-Up>'] = { switch_to_split('k') },
         ['<C-Right>'] = { switch_to_split('l') },
         ['<C-c>'] = { '<C-w>c' },
-
         -- Git keymaps
         ['<leader>ga'] = { ':Git add .<CR>', { desc = '[G]it [A]dd' } },
         ['<leader>gs'] = { ':Git status <CR>', { desc = '[G]it [S]tatus' } },
@@ -90,7 +89,7 @@ local mappings = {
         ['<leader>gr'] = { ':Git rebase<CR>', { desc = '[G]it [R]ebase' } },
         ['<leader>gl'] = { ':Git log --graph --pretty=oneline<CR>', { desc = '[G]it [L]og' } },
         ['<leader>u'] = { vim.cmd.UndotreeToggle },
-        ['<C-x>'] = { '<cmd>ToggleTerm<CR>', { desc = "Toggle Terminal" }, },
+        ['<leader>t'] = { '<cmd>ToggleTerm<CR>', { desc = "Toggle Terminal" }, },
         ['[d'] = { vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" } },
         [']d'] = { vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" } },
         ['<leader>e'] = { vim.diagnostic.open_float, { desc = "Open floating diagnostic message" } },
@@ -105,11 +104,7 @@ local mappings = {
             silent = true,
             noremap = true
         } },
-        ['<leader>t'] = { "<cmd>TroubleToggle loclist<cr>", {
-            desc = "Toggle Trouble Location List",
-            silent = true,
-            noremap = true
-        } },
+        -- ['<leader>t'] = { "<cmd>TroubleToggle loclist<cr>", { desc = "Toggle Trouble Location List", silent = true, noremap = true } },
         ['<leader>xq'] = { "<cmd>TroubleToggle quickfix<cr>", {
             desc = "Toggle Trouble Quickfix",
             silent = true,
@@ -140,6 +135,7 @@ local mappings = {
         ["<leader>ss"] = { [[<cmd>lua require("persistence").load()<cr>]] },
         ["<leader>sl"] = { [[<cmd>lua require("persistence").load({ last = true } })<cr>]] },
         ["<leader>sd"] = { [[<cmd>lua require("persistence").stop()<cr>]] },
+        ["<leader>ol"] = { "<cmd>AerialToggle<cr>", { desc = "Toggle outline view", silent = true } },
     },
     v = {
         ['<leader>d'] = { '"_d' },
@@ -157,7 +153,7 @@ local mappings = {
     },
     t = {
         -- Git keymaps
-        ['<C-x>'] = { '<C-\\><C-n><cmd>ToggleTerm<CR>' },
+        ['<leader>t'] = { '<C-\\><C-n><cmd>ToggleTerm<CR>' },
         ['jk'] = { [[<C-\><C-n>]] },
     }
 }

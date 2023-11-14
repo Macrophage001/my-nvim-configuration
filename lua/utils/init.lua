@@ -33,7 +33,6 @@ M.load_mappings = function(mappings)
   end
 end
 
-
 -- Source: https://github.com/NvChad/NvChad/blob/v2.0/lua/core/utils.lua
 M.lazy_load = function(plugin)
   vim.api.nvim_create_autocmd({ "BufRead", "BufWinEnter", "BufNewFile" }, {

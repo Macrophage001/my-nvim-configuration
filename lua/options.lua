@@ -34,9 +34,5 @@ vim.o.shellquote = ''
 vim.o.shellpipe = '| Out-File -Encoding UTF8 %s'
 vim.o.shellredir = '| Out-File -Encoding UTF8 %s'
 
-
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-
--- Goneovim Configs
-vim.o.guifont = "FastaqueSansMono NFM:n"

@@ -2,8 +2,6 @@
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 
--- luasnip.config.setup {}
-
 local check_backspace = function()
     local col = vim.fn.col "." - 1
     return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"

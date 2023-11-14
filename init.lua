@@ -1,6 +1,7 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.editorconfig = 1
+vim.g.swapfile = false
 
 require 'options'
 
@@ -23,8 +24,8 @@ require('lazy').setup({
 
   require('kickstart.plugins.autoformat'),
   require('kickstart.plugins.debug'),
-  require('colorschemes.catpuccin'),
-}, {})
+  require('colorschemes.palenightfall'),
+})
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -80,10 +81,8 @@ require('nvim-treesitter.configs').setup {
   ensure_installed = {
     'c',
     'cpp',
-    'go',
     'lua',
     'python',
-    'rust',
     'javascript',
     'tsx',
     'typescript',

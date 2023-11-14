@@ -74,7 +74,7 @@ local buttons = {
 		button("s", icons.git.Octoface .. " Git Status", "<cmd>Git status<CR>"),
 		button("c", icons.ui.Config .. " Config", "<cmd>e ~/AppData/Local/nvim/<CR>"),
 		button("q", icons.ui.Close .. " Quit", "<cmd>qa<CR>"),
-		button('p', " Last Session", "<cmd>lua require('persistence').load()<CR>"),
+		button('p', icons.ui.BookMark .. " Last Session", "<cmd>lua require('persistence').load()<CR>"),
 	},
 	opts = {
 		spacing = 1,
