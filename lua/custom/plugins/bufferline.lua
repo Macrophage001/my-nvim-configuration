@@ -96,37 +96,43 @@ return {
 	config = function()
 		require('bufferline').setup({
 			highlights = {
-				background = {
-					italic = true,
+				separator = {
+					fg = "#191a25",
+					bg = "#191a25",
 				},
 				buffer_selected = {
 					bold = true,
 				},
+				fill = {
+					bg = "#191a25",
+				},
 			},
+
 			options = {
-				close_command = function(bufnr)
-					buf_kill("bd", bufnr, false)
-				end,
+				close_command = "Bdelete! %d", -- can be a string | function, see "Mouse actions",
+				right_mouse_command = "Bdelete! %d", -- can be a string | function, see "Mouse actions"
+				left_mouse_command = "buffer %d", -- can be a string | function, see "Mouse actions"
+				middle_mouse_command = nil, -- can be a string | function, see "Mouse actions"
 				indicator = {
 					icon = icons.ui.BoldLineLeft,
 					style = "icon",
 				},
-				buffer_close_icon = icons.ui.Close,
+				buffer_close_icon = icons.ui.BoldClose,
 				modified_icon = icons.ui.Modified,
 				close_icon = icons.ui.BoldClose,
 				left_trunc_marker = icons.ui.ArrowCircleLeft,
 				right_trunc_marker = icons.ui.ArrowCircleRight,
-				name_formatter = function(buf) -- buf contains a "name", "path" and "bufnr"
-					-- Remove extension from file name.
-					return vim.fn.fnamemodify(buf.name, ":t:r")
-				end,
-				max_name_length = 18,
-				max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
+				-- name_formatter = function(buf) -- buf contains a "name", "path" and "bufnr"
+				-- 	-- Remove extension from file name.
+				-- 	return vim.fn.fnamemodify(buf.name, ":t:r")
+				-- end,
+				max_name_length = 30,
+				max_prefix_length = 30, -- prefix used when a buffer is de-duplicated
 				truncate_names = true, -- whether or not tab names should be truncated
-				tab_size = 18,
-				diagnostics = "nvim_lsp",
-				diagnostics_update_in_insert = false,
-				diagnostics_indicator = diagnostics_indicator,
+				tab_size = 21,
+				-- diagnostics = "nvim_lsp",
+				-- diagnostics_update_in_insert = false,
+				-- diagnostics_indicator = diagnostics_indicator,
 				offsets = {
 					{
 						filetype = "neo-tree",
@@ -158,11 +164,11 @@ return {
 				show_close_icon = false,
 				show_tab_indicators = true,
 				persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
-				enforce_regular_tabs = false,
-				always_show_bufferline = true,
-				separator_style = "thin",
+				enforce_regular_tabs = true,
+				always_show_bufferline = false,
+				separator_style = "padded_slope",
 				hover = {
-					enabled = false, -- requires nvim 0.8+
+					enabled = true, -- requires nvim 0.8+
 					delay = 200,
 					reveal = { "close" },
 				},

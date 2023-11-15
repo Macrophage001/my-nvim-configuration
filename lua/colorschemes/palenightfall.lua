@@ -1,7 +1,9 @@
 return {
 	"JoosepAlviste/palenightfall.nvim",
 	config = function()
-		require("palenightfall").setup()
-		vim.cmd.colorscheme "palenightfall"
+		require("palenightfall").setup({
+			transparent = true,
+		})
+		vim.cmd.colorscheme("palenightfall")
 	end
 }
