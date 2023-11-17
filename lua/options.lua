@@ -23,7 +23,7 @@ vim.opt.list = true
 vim.wo.number = true
 vim.wo.relativenumber = true
 vim.wo.cursorline = true
-vim.wo.cursorlineopt = "both"
+vim.wo.cursorlineopt = 'both'
 vim.wo.signcolumn = 'yes'
 
 -- Shell Configuration

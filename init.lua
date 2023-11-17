@@ -13,17 +13,17 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require('lazy').setup({
-  require('colorschemes.catpuccin'),
+require('lazy').setup {
+  require 'colorschemes.catppuccin',
 
   { import = 'core.plugins' },
   { import = 'custom.plugins' },
-})
+}
 
-require("core.lspconfig")
+require 'core.lspconfig'
 
 local load_mappings = require('utils').load_mappings
 local load_autocmds = require('utils').load_autocmds
 
-load_autocmds(require('core.autocmds'))
-load_mappings(require('core.keymaps'))
+load_autocmds(require 'core.autocmds')
+load_mappings(require 'core.keymaps')

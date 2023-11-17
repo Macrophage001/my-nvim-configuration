@@ -1,6 +1,7 @@
+local icons = require 'icons'
 return {
   'nvim-telescope/telescope.nvim',
-  lazy = true,
+  event = 'VeryLazy',
   cmd = 'Telescope',
   version = '*',
   dependencies = {
@@ -19,16 +20,25 @@ return {
     local telescope = require 'telescope'
     local actions = require 'telescope.actions'
 
-    telescope.setup({
+    telescope.setup {
       defaults = {
         mappings = {
           i = {
             ['<C-k>'] = actions.move_selection_previous,
             ['<C-j>'] = actions.move_selection_next,
+            ['<C-q>'] = actions.send_selected_to_qflist + actions.open_qflist,
           },
         },
+        prompt_prefix = '❯ ',
+        selection_caret = icons.ui.Circle .. ' ',
+        sorting_strategy = 'ascending',
+        layout_config = {
+          prompt_position = 'top',
+        },
+        path_display = { 'smart' },
+        results_title = '',
       },
-    })
+    }
     -- Enable telescope fzf native, if installed
     pcall(require('telescope').load_extension, 'fzf')
   end,

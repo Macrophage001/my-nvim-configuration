@@ -14,7 +14,7 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  local telescope_builtin = require('telescope.builtin')
+  local telescope_builtin = require 'telescope.builtin'
 
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   -- nmap('<leader>rn', '<cmd>Lspsaga rename<CR>', '[R]e[n]ame')
@@ -39,15 +39,15 @@ local on_attach = function(_, bufnr)
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
   nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
   nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-  nmap('<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
-    '[W]orkspace [L]ist Folders')
+  nmap('<leader>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, '[W]orkspace [L]ist Folders')
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
 end
-
 
 --
 -- Enable the following language servers
@@ -86,7 +86,7 @@ capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 require('mason').setup()
 
 -- Ensure the servers above are installed
-local mason_lspconfig = require('mason-lspconfig')
+local mason_lspconfig = require 'mason-lspconfig'
 
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
@@ -94,11 +94,11 @@ mason_lspconfig.setup {
 
 mason_lspconfig.setup_handlers {
   function(server_name)
-    require('lspconfig')[server_name].setup({
+    require('lspconfig')[server_name].setup {
       capabilities = capabilities,
       on_attach = on_attach,
       settings = servers[server_name],
-    })
+    }
   end,
 }
 
