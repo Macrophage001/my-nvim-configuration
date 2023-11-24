@@ -134,6 +134,7 @@ M.n = {
   -- Telescope Keymaps
   ['<leader>sr'] = { telescope_builtin.oldfiles, { desc = 'Find [r]ecently opened files' } },
   ['<leader>sf'] = { telescope_builtin.find_files, { desc = '[S]earch [F]iles' } },
+  ['\\'] = { telescope_builtin.find_files, { desc = '[S]earch [F]iles' } },
   ['<leader>sh'] = {
     telescope_builtin.help_tags,
     { desc = '[S]earch [H]elp' },

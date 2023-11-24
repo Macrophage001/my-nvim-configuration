@@ -4,7 +4,7 @@ local null_ls_utils = require 'null-ls.utils'
 
 mason_null_ls.setup {
   ensure_installed = {
-    'prettier', -- prettier formatter
+    'prettier', -- js formatter'
     'stylua', -- lua formatter
     'black', -- python formatter
     'pylint', -- python linter
@@ -22,9 +22,7 @@ local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 local opts = {
   root_dir = null_ls_utils.root_pattern('.null-ls-root', 'Makefile', '.git', 'package.json'),
   sources = {
-    formatting.prettier.with {
-      extra_filetypes = { 'svelte' },
-    }, -- js/ts formatter
+    formatting.prettier,
     formatting.stylua, -- lua formatter
     formatting.isort,
     formatting.black,
@@ -43,12 +41,7 @@ local opts = {
         group = augroup,
         buffer = bufnr,
         callback = function()
-          vim.lsp.buf.format {
-            filter = function(client)
-              return client.name == 'null-ls'
-            end,
-            bufnr = bufnr,
-          }
+          vim.lsp.buf.format { bufnr = bufnr }
         end,
       })
     end

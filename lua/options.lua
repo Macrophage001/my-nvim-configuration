@@ -13,6 +13,8 @@ vim.opt.breakindent = true
 vim.opt.undofile = true
 vim.opt.updatetime = 200
 vim.opt.completeopt = 'menuone,noselect'
+vim.opt.laststatus = 3
+vim.opt.splitkeep = 'screen'
 
 vim.opt.termguicolors = true
 

@@ -1,13 +1,15 @@
 return {
-	'rcarriga/nvim-notify',
-	lazy = true,
-	event = { "BufReadPre" },
-	config = function()
-		require("notify").setup({
-			background_colour = "#282c34",
-			fps = 60,
-			top_down = false,
-			render = "compact",
-		})
-	end
+  'rcarriga/nvim-notify',
+  keys = {
+    {
+      '<leader>un',
+      function()
+        require('notify').dismiss { silent = true, pending = true }
+      end,
+      desc = 'Dismiss all notifications',
+    },
+  },
+  opts = function()
+    return require 'custom.configs.nvimnotify'
+  end,
 }

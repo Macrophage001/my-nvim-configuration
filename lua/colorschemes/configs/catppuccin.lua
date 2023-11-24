@@ -1,8 +1,8 @@
 return {
-  flavour = 'mocha', -- latte, frappe, macchiato, mocha
+  flavour = 'macchiato', -- latte, frappe, macchiato, mocha
   background = {
     light = 'latte',
-    dark = 'frappe',
+    dark = 'macchiato',
   },
   transparent_background = false,
   show_end_of_buffer = false, -- show the '~' characters after the end of buffers
@@ -29,7 +29,12 @@ return {
     operators = {},
   },
   color_overrides = {},
-  custom_highlights = {},
+  custom_highlights = function(_)
+    return {
+      CursorLineNr = { fg = '#89b4fa' },
+      LineNr = { fg = '#6c7086' },
+    }
+  end,
   integrations = {
     alpha = true,
     flash = true,

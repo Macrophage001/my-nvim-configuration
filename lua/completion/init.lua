@@ -7,20 +7,7 @@ local check_backspace = function()
   return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s'
 end
 
-local completion_border = function(hl_name)
-  return {
-    { '┌', hl_name },
-    { '─', hl_name },
-    { '┐', hl_name },
-    { '│', hl_name },
-    { '┘', hl_name },
-    { '─', hl_name },
-    { '└', hl_name },
-    { '│', hl_name },
-  }
-end
-
-local documentation_border = function(hl_name)
+local border = function(hl_name)
   return {
     { '┌', hl_name },
     { '─', hl_name },
@@ -87,12 +74,12 @@ cmp.setup {
     completion = {
       scrollbar = false,
       winhighlight = 'Normal:Pmenu,CursorLine:PmenuSel,Search:PmenuSel',
-      border = completion_border 'NormalFloat',
+      border = border 'FloatBorder',
     },
     documentation = {
       scrollbar = false,
       winhighlight = 'Normal:Pmenu',
-      border = documentation_border 'NormalFloat',
+      border = border 'FloatBorder',
     },
   },
   formatting = {
@@ -101,10 +88,10 @@ cmp.setup {
       -- Kind icons
       vim_item.kind = string.format('%s', require('icons').kind[vim_item.kind])
       vim_item.menu = ({
-        nvim_lsp = '▎   LSP',
-        luasnip = '▎   Snippet',
-        buffer = '▎   Buffer',
-        path = '▎   Path',
+        nvim_lsp = '▎  LSP',
+        luasnip = '▎  Snippet',
+        buffer = '▎  Buffer',
+        path = '▎  Path',
       })[entry.source.name]
       return vim_item
     end,
@@ -120,7 +107,9 @@ cmp.setup {
     select = false,
   },
   experimental = {
-    ghost_text = false,
+    ghost_text = {
+      hl_group = 'Directory',
+    },
     native_menu = false,
   },
 }

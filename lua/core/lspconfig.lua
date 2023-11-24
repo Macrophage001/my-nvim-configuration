@@ -59,7 +59,13 @@ local servers = {
   clangd = {},
   pyright = {},
   rust_analyzer = {},
-  tsserver = {},
+  tsserver = {
+    init_options = {
+      preferences = {
+        disableSuggestions = true,
+      },
+    },
+  },
   omnisharp = {},
   lua_ls = {
     Lua = {
@@ -89,7 +95,9 @@ require('mason').setup()
 local mason_lspconfig = require 'mason-lspconfig'
 
 mason_lspconfig.setup {
-  ensure_installed = vim.tbl_keys(servers),
+  ensure_installed = vim.tbl_deep_extend('force', {
+    'eslint-lsp',
+  }, vim.tbl_keys(servers)),
 }
 
 mason_lspconfig.setup_handlers {

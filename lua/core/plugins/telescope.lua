@@ -26,6 +26,7 @@ return {
           i = {
             ['<C-k>'] = actions.move_selection_previous,
             ['<C-j>'] = actions.move_selection_next,
+            ['<C-s>'] = actions.toggle_selection,
             ['<C-q>'] = actions.send_selected_to_qflist + actions.open_qflist,
           },
         },
@@ -41,5 +42,6 @@ return {
     }
     -- Enable telescope fzf native, if installed
     pcall(require('telescope').load_extension, 'fzf')
+    pcall(require('telescope').load_extension, 'aerial')
   end,
 }
