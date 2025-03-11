@@ -36,7 +36,11 @@ return {
       -- This is where we attach the autoformatting for reasonable clients
       callback = function(args)
         local client_id = args.data.client_id
-        local client = vim.lsp.get_client_by_id(client_id)
+        local ok, client = pcall(vim.lsp.get_client_by_id, client_id);
+        if not ok or client == nil then
+          return
+        end
+
         local bufnr = args.buf
 
         -- Only attach to clients that support document formatting

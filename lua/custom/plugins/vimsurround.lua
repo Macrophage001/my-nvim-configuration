@@ -7,4 +7,4 @@ return {
             -- Configuration here, or leave empty to use defaults
         })
     end
-} 
+}

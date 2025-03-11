@@ -7,18 +7,18 @@ local check_backspace = function()
   return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s'
 end
 
-local border = function(hl_name)
-  return {
-    { '┌', hl_name },
-    { '─', hl_name },
-    { '┐', hl_name },
-    { '│', hl_name },
-    { '┘', hl_name },
-    { '─', hl_name },
-    { '└', hl_name },
-    { '│', hl_name },
-  }
-end
+-- local border = function(hl_name)
+--   return {
+--     { '┌', hl_name },
+--     { '─', hl_name },
+--     { '┐', hl_name },
+--     { '│', hl_name },
+--     { '┘', hl_name },
+--     { '─', hl_name },
+--     { '└', hl_name },
+--     { '│', hl_name },
+--   }
+-- end
 
 cmp.setup {
   snippet = {
@@ -70,36 +70,40 @@ cmp.setup {
     }),
   },
   window = {
-    side_padding = 0,
+    side_padding = 2,
     completion = {
       scrollbar = false,
       winhighlight = 'Normal:Pmenu,CursorLine:PmenuSel,Search:PmenuSel',
-      border = border 'FloatBorder',
+      -- border = border('FloatBorder'),
     },
     documentation = {
       scrollbar = false,
       winhighlight = 'Normal:Pmenu',
-      border = border 'FloatBorder',
+      -- border = border('FloatBorder'),
     },
   },
   formatting = {
+    expandable_indicator = true,
     fields = { 'kind', 'abbr', 'menu' },
     format = function(entry, vim_item)
       -- Kind icons
       vim_item.kind = string.format('%s', require('icons').kind[vim_item.kind])
       vim_item.menu = ({
+        copilot = '▎ pilot',
         nvim_lsp = '▎  LSP',
         luasnip = '▎  Snippet',
         buffer = '▎  Buffer',
         path = '▎  Path',
       })[entry.source.name]
+
       return vim_item
     end,
   },
   sources = {
+    { name = 'copilot' },
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
     { name = 'buffer' },
+    { name = 'luasnip' },
     { name = 'path' },
   },
   confirm_opts = {

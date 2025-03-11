@@ -12,8 +12,8 @@ local diagnostics_indicator = function(num, _, diagnostics, _)
       table.insert(result, symbols[name] .. ' ' .. count)
     end
   end
-  result = table.concat(result, ' ')
-  return #result > 0 and result or ''
+  local str_result = table.concat(result, ' ')
+  return #str_result > 0 and str_result or ''
 end
 
 return {
@@ -31,10 +31,10 @@ return {
   },
 
   options = {
-    close_command = 'Bdelete! %d', -- can be a string | function, see "Mouse actions",
+    close_command = 'Bdelete! %d',       -- can be a string | function, see "Mouse actions",
     right_mouse_command = 'Bdelete! %d', -- can be a string | function, see "Mouse actions"
-    left_mouse_command = 'buffer %d', -- can be a string | function, see "Mouse actions"
-    middle_mouse_command = nil, -- can be a string | function, see "Mouse actions"
+    left_mouse_command = 'buffer %d',    -- can be a string | function, see "Mouse actions"
+    middle_mouse_command = nil,          -- can be a string | function, see "Mouse actions"
     indicator = {
       icon = icons.ui.BoldLineLeft,
       style = 'icon',
@@ -46,7 +46,7 @@ return {
     right_trunc_marker = icons.ui.ArrowCircleRight,
     max_name_length = 30,
     max_prefix_length = 30, -- prefix used when a buffer is de-duplicated
-    truncate_names = true, -- whether or not tab names should be truncated
+    truncate_names = true,  -- whether or not tab names should be truncated
     tab_size = 21,
     diagnostics = 'nvim_lsp',
     diagnostics_update_in_insert = false,
@@ -84,7 +84,7 @@ return {
     persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
     enforce_regular_tabs = true,
     always_show_bufferline = false,
-    separator_style = 'padded_slope',
+    separator_style = 'thin',
     hover = {
       enabled = true, -- requires nvim 0.8+
       delay = 200,

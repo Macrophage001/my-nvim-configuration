@@ -7,6 +7,11 @@ return {
       ui = {
         code_action = require('icons').ui.Lightbulb,
       },
+      outline = {
+        keys = {
+          jump = '<Enter>'
+        }
+      }
     }
   end,
   dependencies = {

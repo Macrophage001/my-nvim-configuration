@@ -84,9 +84,9 @@ local buttons = {
 local footer = {
 	type = "text",
 	val =
-		[[ ↳  Neovim v]] .. get_neovim_version() ..
-		[[  ]] .. get_lua_version() ..
-		[[  Plugins: ]] .. get_plugin_count() .. [[  ]] .. get_date() .. [[ ↲ ]],
+		[[ ↳   Neovim v]] .. get_neovim_version() ..
+		[[   ]] .. get_lua_version() ..
+		[[   Plugins: ]] .. get_plugin_count() .. [[   ]] .. get_date() .. [[ ↲ ]],
 	opts = {
 		position = "center",
 		hl = "Number",
@@ -102,9 +102,9 @@ local section = {
 
 local config = {
 	layout = {
-		{ type = "padding", val = 2 },
+		{ type = "padding", val = 1 },
 		section.header,
-		{ type = "padding", val = 2 },
+		{ type = "padding", val = 1 },
 		section.buttons,
 		section.footer,
 	},

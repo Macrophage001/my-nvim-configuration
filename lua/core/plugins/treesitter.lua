@@ -1,3 +1,4 @@
+local delete = require "lsp-file-operations.did-delete"
 local M = {
   {
     -- Highlight, edit, and navigate code
@@ -15,13 +16,17 @@ local M = {
         ensure_installed = {
           'c',
           'cpp',
+          'c_sharp',
           'lua',
           'python',
           'javascript',
           'tsx',
           'typescript',
-          'help',
           'vim',
+          'html',
+          'ruby',
+          'jsdoc',
+          'luadoc',
         },
 
         -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
@@ -81,10 +86,10 @@ local M = {
           swap = {
             enable = true,
             swap_next = {
-              ['<leader>a'] = '@parameter.inner',
+              ['<leader>sa'] = '@parameter.inner',
             },
             swap_previous = {
-              ['<leader>A'] = '@parameter.inner',
+              ['<leader>sA'] = '@parameter.inner',
             },
           },
         },

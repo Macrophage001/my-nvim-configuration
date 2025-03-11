@@ -1,26 +1,26 @@
 return {
-  flavour = 'macchiato', -- latte, frappe, macchiato, mocha
+  flavour = 'mocha', -- latte, frappe, macchiato, mocha
   background = {
     light = 'latte',
-    dark = 'macchiato',
+    dark = 'frappe',
   },
   transparent_background = false,
   show_end_of_buffer = false, -- show the '~' characters after the end of buffers
   term_colors = false,
   dim_inactive = {
-    enabled = false,
+    enabled = true,
     shade = 'dark',
     percentage = 0.15,
   },
   no_italic = false, -- Force no italic
   no_bold = false,   -- Force no bold
   styles = {
-    -- comments = {  },
+    comments = {},
     conditionals = {},
     loops = {},
     functions = {},
     keywords = {},
-    strings = { 'italic' },
+    strings = {},
     variables = {},
     numbers = {},
     booleans = {},
@@ -43,7 +43,6 @@ return {
     cmp = true,
     gitsigns = true,
     neotree = true,
-    notify = true,
     treesitter = true,
     treesitter_context = true,
     telescope = {
